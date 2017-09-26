@@ -54,6 +54,8 @@ public class Client {
         ArrayList<Vector> bag_of_vectors = new ArrayList<Vector>(2560000);
         double x, y;
         
+        //ACCOUNT FOR COMPOUNDED ANGLES AND ADD TIME_INTERVAL CONSTANT!
+        //ALSO ACCOUNT FOR INITIAL POSITION OF OBJECT!
         for(PossibilityTuple e : bag_of_tuples){
             x = SPEED * (Math.cos(e.getE1()) + Math.cos(e.getE2()) + Math.cos(e.getE3()) + Math.cos(e.getE4()));
             y = SPEED * (Math.sin(e.getE1()) + Math.sin(e.getE2()) + Math.sin(e.getE3()) + Math.sin(e.getE4()));
@@ -78,6 +80,7 @@ public class Client {
     }
     
     private static int[][] fillGrid(ArrayList<Vector> bag_of_vectors){
+        //MAKE GRID THE ACTUAL COMPLETE FULL 30X30M GRID AND SET (0,0) AS THE BOTTOM LEFT CORNER
         int[][] grid = new int[20][9];
         //Initialize 2D Array
         for(int i=0; i<20; i++){
@@ -90,6 +93,7 @@ public class Client {
             double x = v.getX();
             double y = v.getY();
             
+            //ELIMINIATE ALL IF STATEMENTS BY USING MATH.FLOOR() METHOD!
             if(x>=0 && x<1){
                 if(y>=0 && y<1){
                     grid[0][0]++;
@@ -654,6 +658,7 @@ public class Client {
         
         return grid;
     }
+    
     
     private static void printGrid(int[][] grid){
         for(int i=0; i<grid.length; i++){
