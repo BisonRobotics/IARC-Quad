@@ -89,6 +89,43 @@ void printMessageContents(mavlink_message_t& message) {
                 cout << endl;
             }
             break;
+        case MAVLINK_MSG_ID_GPS_RAW_INT: // 24
+            {
+                mavlink_gps_raw_int_t gpsRawIntMessage;
+                mavlink_msg_gps_raw_int_decode(&message, &gpsRawIntMessage);
+                cout << "GPS Raw Int Message received" << endl;
+
+                cout << "\tTimestamp: " << gpsRawIntMessage.time_usec << endl;
+                cout << "\tGPS fix: ";
+                switch(gpsRawIntMessage.fix_type) {
+                    case 0: case 1:
+                        cout << "NO_FIX" << endl; break;
+                    case 2:
+                        cout << "2D_FIX" << endl; break;
+                    case 3:
+                        cout << "3D_FIX" << endl; break;
+                    case 4:
+                        cout << "DGPS" << endl; break;
+                    case 5:
+                        cout << "RTK" << endl; break;
+                    default:
+                        cout << "UNKNOWN (" << (int)gpsRawIntMessage.fix_type << ')' << endl;
+                        break;
+                }
+                cout << "\tSatellites: ";
+                if(gpsRawIntMessage.satellites_visible == 255)
+                    cout << "UNKNOWN" << endl;
+                else
+                    cout << (int)gpsRawIntMessage.satellites_visible << endl;
+                cout << "\tLat (WGS84): " << double(gpsRawIntMessage.lat)/10000000.0 << " deg" << endl;
+                cout << "\tLon (WGS84): " << double(gpsRawIntMessage.lon)/10000000.0 << " deg" << endl;
+                cout << "\tAlt (AMSL): " << double(gpsRawIntMessage.alt)/1000.0 << "m" << endl;
+                cout << "\tGround speed: " << double(gpsRawIntMessage.vel)/100.0 << "m/s" << endl;
+                cout << "\tCourse over gnd: " << double(gpsRawIntMessage.cog)/100.0 << " deg" << endl;
+
+                cout << endl;
+            }
+            break;
         case MAVLINK_MSG_ID_RAW_IMU: // 27
             {
                 mavlink_raw_imu_t rawImuMessage;
@@ -118,7 +155,7 @@ void printMessageContents(mavlink_message_t& message) {
 
             }
             break;
-        case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
+        case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: // 33
             {
                 mavlink_global_position_int_t globalPositionIntMessage;
                 mavlink_msg_global_position_int_decode(&message, &globalPositionIntMessage);
@@ -130,6 +167,46 @@ void printMessageContents(mavlink_message_t& message) {
                 cout << "\t\talt: " << double(globalPositionIntMessage.alt) / 1000.0 << "m" << endl;
 
                 cout << endl;
+            }
+            break;
+        case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW: // 36
+            {
+                mavlink_servo_output_raw_t servoOutputRawMessage;
+                mavlink_msg_servo_output_raw_decode(&message, &servoOutputRawMessage);
+                cout << "Servo Output Raw Message received" << endl;
+
+                cout << "\tBoot timestamp: " << servoOutputRawMessage.time_usec << " uS" << endl;
+                cout << "\tPort: " << (int)servoOutputRawMessage.port << endl;
+
+                if(servoOutputRawMessage.port == 0) {
+                    cout << "\t\tServo 1: " << servoOutputRawMessage.servo1_raw << " uS" << endl;
+                    cout << "\t\tServo 2: " << servoOutputRawMessage.servo2_raw << " uS" << endl;
+                    cout << "\t\tServo 3: " << servoOutputRawMessage.servo3_raw << " uS" << endl;
+                    cout << "\t\tServo 4: " << servoOutputRawMessage.servo4_raw << " uS" << endl;
+                    cout << "\t\tServo 5: " << servoOutputRawMessage.servo5_raw << " uS" << endl;
+                    cout << "\t\tServo 6: " << servoOutputRawMessage.servo6_raw << " uS" << endl;
+                    cout << "\t\tServo 7: " << servoOutputRawMessage.servo7_raw << " uS" << endl;
+                    cout << "\t\tServo 8: " << servoOutputRawMessage.servo8_raw << " uS" << endl;
+                }
+
+                cout << endl;
+            }
+            break;
+        case MAVLINK_MSG_ID_VFR_HUD: // 74
+            {
+                mavlink_vfr_hud_t VfrHudMessage;
+                mavlink_msg_vfr_hud_decode(&message, &VfrHudMessage);
+                cout << "VFR HUD Message received" << endl;
+
+                cout << "\tAirspeed: " << VfrHudMessage.airspeed << "m/s" << endl;
+                cout << "\tGroundspeed: " << VfrHudMessage.groundspeed << "m/s" << endl;
+                cout << "\tHeading: " << VfrHudMessage.heading << " degrees" << endl;
+                cout << "\tThrottle: " << VfrHudMessage.throttle << "%" << endl;
+                cout << "\tAltitude: " << VfrHudMessage.alt << "m" << endl;
+                cout << "\tClimb rate: " << VfrHudMessage.climb << "m/s" << endl;
+
+                cout << endl;
+
             }
             break;
         case MAVLINK_MSG_ID_COMMAND_ACK: // 77
@@ -214,6 +291,33 @@ void printMessageContents(mavlink_message_t& message) {
                 cout << "\tTotal distance traveled:\n";
                 cout << "\t\tx: " << float(dx) / 10.0f << endl;
                 cout << "\t\ty: " << float(dy) / 10.0f << endl;
+
+                cout << endl;
+            }
+            break;
+        case MAVLINK_MSG_ID_HIGHRES_IMU: // 105
+            {
+                mavlink_highres_imu_t highresImuMessage;
+                mavlink_msg_highres_imu_decode(&message, &highresImuMessage);
+                cout << "Highres IMU Message received" << endl;
+
+                cout << "\tBoot timestamp: " << highresImuMessage.time_usec << endl;
+                cout << "\tAcceleration:\n";
+                cout << "\t\tx: " << highresImuMessage.xacc << "m/s^2" << endl;
+                cout << "\t\ty: " << highresImuMessage.yacc << "m/s^2" << endl;
+                cout << "\t\tz: " << highresImuMessage.zacc << "m/s^2" << endl;
+                cout << "\tAngular speed:\n";
+                cout << "\t\tx: " << highresImuMessage.xgyro << "rad/sec" << endl;
+                cout << "\t\ty: " << highresImuMessage.ygyro << "rad/sec" << endl;
+                cout << "\t\tz: " << highresImuMessage.zgyro << "rad/sec" << endl;
+                cout << "\tMagnetic field:\n";
+                cout << "\t\tx: " << highresImuMessage.xmag << " gauss" << endl;
+                cout << "\t\ty: " << highresImuMessage.ymag << " gauss" << endl;
+                cout << "\t\tz: " << highresImuMessage.zmag << " gauss" << endl;
+                cout << "\tAbsolute pressure: " << highresImuMessage.abs_pressure << " millibar" << endl;
+                cout << "\tDifferential pressure: " << highresImuMessage.diff_pressure << " millibar" << endl;
+                cout << "\tCalculated altitude: " << highresImuMessage.pressure_alt << "m" << endl;
+                cout << "\tTemperature: " << highresImuMessage.temperature << " celcius" << endl;
 
                 cout << endl;
             }
