@@ -1,12 +1,12 @@
 #ifndef __JJC__MAVLINK__MESSAGE__INTERFACE__HPP__
 #define __JJC__MAVLINK__MESSAGE__INTERFACE__HPP__
 
-#include "RS232_GenericController.h"
-#include <common/mavlink.h>
+//#include "RS232_GenericController.h"
+#include "v2/common/mavlink.h"
 #include <iostream>
 
 using namespace std;
-
+/*
 namespace MavMsgUx {
 
 bool checkMessagesOnPort(SerialController* sc, mavlink_message_t* message) {
@@ -27,7 +27,7 @@ bool checkMessagesOnPort(SerialController* sc, mavlink_message_t* message) {
 
     return false;
 }
-
+*/
 void printMessageContents(mavlink_message_t& message) {
     switch(message.msgid) {
         case MAVLINK_MSG_ID_HEARTBEAT: // 0
@@ -391,6 +391,6 @@ void printMessageContents(mavlink_message_t& message) {
     }
 }
 
-} // end of namespace MavMsgUx
+//} // end of namespace MavMsgUx
 
 #endif // __JJC__MAVLINK__MESSAGE__INTERFACE__HPP__

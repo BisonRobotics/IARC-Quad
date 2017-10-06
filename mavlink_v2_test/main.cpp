@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "../mavlib/v2/common/mavlink.h"
+#include "../mavlib/MavlinkMessageInterface.hpp"
 
 using namespace std;
 
@@ -25,7 +26,8 @@ int main(int argc, char* argv[]) {
         pixhawk_2.read((char*)&byte, 1);
 
         if(mavlink_frame_char(0, byte, &mav_mesg, &mav_stat)) {
-            cout << "Msgid: " << mav_mesg.msgid << endl;
+            cout << "Msgid: " << mav_mesg.msgid <<  endl;
+					printMessageContents(mav_mesg);
         }
     }
 
