@@ -10,18 +10,6 @@
 
 #define SC SerialController
 
-enum Parity {
-    Parity_ODD, Parity_EVEN, Parity_OFF
-};
-
-enum WordSize {
-    WordSize_7, WordSize_8
-};
-
-enum StopBits {
-    StopBits_1, StopBits_2
-};
-
 class SerialController {
 private:
     termios tty;
@@ -30,6 +18,18 @@ private:
     void parityEnable(void);
 
 public:
+    enum PARITY {
+        ODD, EVEN, OFF
+    };
+
+    enum WORDSIZE {
+        _7, _8
+    };
+
+    enum STOPBITS {
+        _1, _2
+    };
+
     // constructor that does nothing
     SerialController(void);
 
@@ -49,13 +49,13 @@ public:
     void set_BaudRate(int baudrate);
 
     // set odd/even/no parity for this serial port
-    void set_Parity(Parity parity);
+    void set_Parity(PARITY parity);
 
     // set either 7 or 8 bit word for this serial port
-    void set_WordSize(WordSize wordsize);
+    void set_WordSize(WORDSIZE wordsize);
 
     // set either 1 or 2 stop bits for this port
-    void set_StopBits(StopBits stopbits);
+    void set_StopBits(STOPBITS stopbits);
 
     // dont use either of these two methods yet, still figuring out
     bool set_ModeBlocking(void);    // set the serial port as blocking, returns true on success
