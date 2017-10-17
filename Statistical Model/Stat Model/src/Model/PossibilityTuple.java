@@ -37,6 +37,9 @@ public class PossibilityTuple {
     protected double getE4(){
         return quadTuple[3];
     }
+    protected double sumAll(){
+        return quadTuple[0] + quadTuple[1] + quadTuple[2] + quadTuple[3];
+    }
 
     @Override
     public String toString() {

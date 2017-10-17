@@ -7,15 +7,17 @@ import java.lang.Math;
  * @author abdullah.almosalami
  */
 public class Vector {
-    private double x, y;
+    private double x, y, final_angle;
     
     public Vector(){
         x=0;
         y=0;
+        final_angle = 0;
     }
-    public Vector(double x, double y){
+    public Vector(double x, double y, double final_angle){
         this.x = x;
         this.y = y;
+        this.final_angle = final_angle;
     }
     
     protected double getVectorMag(){
@@ -30,9 +32,12 @@ public class Vector {
     protected double getY(){
         return y;
     }
+    protected double getFinalAngle(){
+        return final_angle;
+    }
 
     @Override
     public String toString() {
-        return "Vector{" + "x=" + x + ", y=" + y + '}';
+        return "Vector{" + "x=" + x + ", y=" + y + ", final_angle=" + final_angle + '}';
     }
 }
