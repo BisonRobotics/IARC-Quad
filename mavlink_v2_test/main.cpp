@@ -4,6 +4,8 @@
 
 #include "../mavlib/v2/common/mavlink.h"
 #include "../mavlib/MavlinkMessageInterface.hpp"
+#include " ../mavlib/PixhawkCommands.hpp"
+
 
 using namespace std;
 
@@ -21,6 +23,7 @@ int main(int argc, char* argv[]) {
     mavlink_message_t mav_mesg;
     mavlink_status_t  mav_stat;
 
+	mavlink_command_long_t sendmsg = packCommand(1, 1, ) 
     while(1) {
         uint8_t byte;
         pixhawk_2.read((char*)&byte, 1);
@@ -29,6 +32,8 @@ int main(int argc, char* argv[]) {
             cout << "Msgid: " << mav_mesg.msgid <<  endl;
 					printMessageContents(mav_mesg);
         }
+
+		sendCommand()
     }
 
     return 0;

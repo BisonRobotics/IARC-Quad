@@ -341,6 +341,16 @@ void printMessageContents(mavlink_message_t& message) {
                 cout << endl;
             }
             break;
+        case MAVLINK_MSG_ID_LOG_REQUEST_LIST: //117
+            {
+                mavlink_log_request_list_t logRequestListMessage;
+                mavlink_msg_log_request_list_decode(&message, &logRequestListMessage);
+                cout << "Log Request List Message Received" <<endl;
+
+                cout << "\tFirst log ID: " << logRequestListMessage.start << endl;
+
+            }
+            break;
         case MAVLINK_MSG_ID_POWER_STATUS: // 125
             {
                 mavlink_power_status_t powerStatusMessage;
@@ -349,6 +359,20 @@ void printMessageContents(mavlink_message_t& message) {
 
                 cout << "\t5v rail: " << float(powerStatusMessage.Vcc) / 1000.0 << endl;
                 cout << "\tServo rail voltage: " << float(powerStatusMessage.Vservo) / 1000.0 << endl;
+
+                cout << endl;
+
+            }
+            break;
+        case MAVLINK_MSG_ID_SCALED_PRESSURE2: // 137
+            {
+                mavlink_scaled_pressure2_t scaledPressure2Message;
+                mavlink_msg_scaled_pressure2_decode(&message, &scaledPressure2Message);
+                cout << "Scaled Pressure Message received" << endl;
+
+                cout << "\tBoot timestamp: " << scaledPressure2Message.time_boot_ms << endl;
+                cout << "\tAbsolute pressure: " << double(scaledPressure2Message.press_abs) / 100.0 << endl;
+                cout << "\tTemperature: " << double(scaledPressure2Message.temperature) / 100 << endl;
 
                 cout << endl;
 
